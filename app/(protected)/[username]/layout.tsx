@@ -13,8 +13,8 @@ export default function UserLayout({
         items={[
           { label: "Profil", href: `/${params.username}` },
           { label: "Gjestebok", href: `/${params.username}/gjestebok` },
-          { label: "Venner", href: "#" },
-          { label: "Bilder", href: "#" },
+          { label: "Venner", href: `/${params.username}/venner` },
+          { label: "Bilder", href: `/${params.username}/bilder` },
         ]}
       />
       <main>{children}</main>

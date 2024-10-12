@@ -18,6 +18,18 @@ import { User } from "@/types/firestore";
 //   revalidateTag("apps");
 // };
 
+export const getUserInfo = async (id: string) => {
+  console.log("Getting user info", id);
+
+  const snapshot = await adminDb.collection("users").doc(id).get();
+
+  if (snapshot.exists) {
+    return snapshot.data() as User;
+  }
+
+  throw new Error("User not found");
+};
+
 export const updateUserInfo = async (id: string, data: Partial<User>) => {
   const snapshot = await adminDb.collection("users").doc(id).get();
 
