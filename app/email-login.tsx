@@ -7,6 +7,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { getUserInfo } from "./actions/firestore";
 
 type Inputs = {
   email: string;
@@ -28,7 +29,9 @@ export const EmailLogin = () => {
           },
         });
 
-        router.push("/min-side");
+        const user = await getUserInfo(userCredential.user.uid);
+
+        router.push(`/${user.slug}`);
       })
       .catch((error) => {
         console.log("Error signing in:", error);
