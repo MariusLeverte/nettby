@@ -1,7 +1,8 @@
 import { getCachedUser } from "@/app/actions/cache";
 import { Card } from "@/components/card";
 import { Progress } from "@/components/progress";
-import { PhotoIcon } from "@heroicons/react/16/solid";
+import { PhotoIcon, UserIcon } from "@heroicons/react/16/solid";
+import Link from "next/link";
 
 interface UserPageProps {
   params: { username: string };
@@ -9,16 +10,30 @@ interface UserPageProps {
 
 export default async function UserPage({ params }: UserPageProps) {
   const user = await getCachedUser();
-
-  console.log("User:", user);
+  const isCurrentUser = user?.slug === params.username;
 
   return (
     <div className="grid grid-cols-12 w-full">
       <div className="col-span-4 p-2 flex flex-col gap-4">
         <div className="bg-neutral-300 rounded-md w-full h-[250px]" />
-        <span className="underline flex items-center gap-2">
-          <PhotoIcon className="w-4 text-neutral-600" /> Legg til profilbilde
-        </span>
+        {isCurrentUser && (
+          <div>
+            <Link
+              href="#"
+              className="underline flex items-center gap-2 font-medium text-neutral-600 hover:text-neutral-900"
+            >
+              <PhotoIcon className="w-4 text-neutral-600" /> Legg til
+              profilbilde
+            </Link>
+
+            <Link
+              href={`/${params.username}/rediger`}
+              className="underline flex items-center gap-2 font-medium text-neutral-600 hover:text-neutral-900"
+            >
+              <UserIcon className="w-4" /> Rediger profil
+            </Link>
+          </div>
+        )}
 
         <Card title="Aktivitet">
           <Progress label="Poeng i dag" value={0} />
