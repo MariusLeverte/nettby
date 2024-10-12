@@ -1,6 +1,7 @@
-// "use server";
+"use server";
 
-// import { adminDb } from "@/lib/firebase-admin";
+import { adminDb } from "@/lib/firebase-admin";
+import { User } from "@/types/firestore";
 // import { QuerySnapshot } from "firebase-admin/firestore";
 // import { DecodedIdToken } from "firebase-admin/auth";
 // import { App, Content, Term } from "@/types/firestore";
@@ -16,3 +17,14 @@
 //   }
 //   revalidateTag("apps");
 // };
+
+export const updateUserInfo = async (id: string, data: Partial<User>) => {
+  const snapshot = await adminDb.collection("users").doc(id).get();
+
+  if (snapshot.exists) {
+    await snapshot.ref.update(data);
+  } else {
+    await snapshot.ref.set(data);
+  }
+  //   revalidateTag("apps");
+};
