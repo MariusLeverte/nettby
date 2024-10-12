@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",
+    "@remirror/pm": "^3.0.0",
+    "@remirror/react": "^3.0.1",
+    "@remirror/react-editors": "^2.0.1",
     "clsx": "^2.1.1",
     "firebase": "^10.14.1",
     "firebase-admin": "^12.6.0",
@@ -17,6 +20,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.53.0",
+    "remirror": "^3.0.1",
     "tailwind-merge": "^2.5.3"
   },
   "devDependencies": {
