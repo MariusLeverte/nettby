@@ -1,33 +1,39 @@
-import { getCachedUser } from "@/app/actions/cache";
 import { Card } from "@/components/card";
 import { Progress } from "@/components/progress";
-import { PhotoIcon, UserIcon } from "@heroicons/react/16/solid";
+import { UserIcon } from "@heroicons/react/16/solid";
 import Link from "next/link";
+import { ProfileImageModal } from "./profile-image-modal";
+import Image from "next/image";
+import { getPageUser, getIsCurrentUser } from "./user";
 
 interface UserPageProps {
   params: { username: string };
 }
 
 export default async function UserPage({ params }: UserPageProps) {
-  const user = await getCachedUser();
-  const isCurrentUser = user?.slug === params.username;
+  const user = await getPageUser(params.username);
+  const isCurrentUser = await getIsCurrentUser(params.username);
 
   return (
     <div className="grid grid-cols-12 w-full">
       <div className="col-span-4 p-2 flex flex-col gap-4">
-        <div className="bg-neutral-300 rounded-md w-full h-[250px]" />
+        <div className="bg-neutral-300 rounded-md w-full h-[250px] relative overflow-hidden">
+          {user.profileUrl && (
+            <Image
+              src={user.profileUrl}
+              alt="Profile picture"
+              width={250}
+              height={250}
+              className="object-center object-cover w-full h-full"
+            />
+          )}
+        </div>
         {isCurrentUser && (
           <div>
-            <Link
-              href="#"
-              className="underline flex items-center gap-2 font-medium text-neutral-600 hover:text-neutral-900"
-            >
-              <PhotoIcon className="w-4 text-neutral-600" /> Legg til
-              profilbilde
-            </Link>
+            <ProfileImageModal user={user} />
 
             <Link
-              href={`/${params.username}/rediger`}
+              href={`/${user.slug}/rediger`}
               className="underline flex items-center gap-2 font-medium text-neutral-600 hover:text-neutral-900"
             >
               <UserIcon className="w-4" /> Rediger profil
@@ -47,7 +53,7 @@ export default async function UserPage({ params }: UserPageProps) {
       <div className="col-span-8 p-4">
         <div className="flex gap-4 justify-between">
           <div className="flex-1">
-            <h1 className="text-3xl font-bold">{params.username}</h1>
+            <h1 className="text-3xl font-bold">{user.userName}</h1>
             <h3>Klar for relansering!</h3>
             <p className="underline">@Oslo</p>
           </div>

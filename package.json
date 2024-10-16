@@ -21,6 +21,8 @@
     "react-dom": "^18",
     "react-hook-form": "^7.53.0",
     "remirror": "^3.0.1",
+    "slate": "^0.103.0",
+    "slate-react": "^0.110.1",
     "tailwind-merge": "^2.5.3"
   },
   "devDependencies": {

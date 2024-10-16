@@ -1,26 +1,26 @@
-// "use server";
+"use server";
 
-// import { adminStorage } from "@/lib/firebase-admin";
+import { adminStorage } from "@/lib/firebase-admin";
 
-// export const uploadAppIcon = async (id: string, formData: FormData) => {
-//   const bucket = adminStorage.bucket();
+export const uploadImage = async (userId: string, formData: FormData) => {
+  const bucket = adminStorage.bucket();
 
-//   const icon = formData.get("file") as File;
+  const icon = formData.get("file") as File;
 
-//   const buffer = await icon.arrayBuffer();
-//   const fileBuffer = Buffer.from(buffer);
+  const buffer = await icon.arrayBuffer();
+  const fileBuffer = Buffer.from(buffer);
 
-//   const file = bucket.file(`apps/${id}/icon`);
+  const file = bucket.file(`image/${userId}/profile`);
 
-//   await file.save(fileBuffer, {
-//     metadata: {
-//       contentType: icon.type,
-//     },
-//     public: true,
-//   });
+  await file.save(fileBuffer, {
+    metadata: {
+      contentType: icon.type,
+    },
+    public: true,
+  });
 
-//   const [metadata] = await file.getMetadata();
-//   const url = metadata.mediaLink;
+  const [metadata] = await file.getMetadata();
+  const url = metadata.mediaLink;
 
-//   return url;
-// };
+  return url;
+};
