@@ -5,12 +5,15 @@ import Link from "next/link";
 import { ProfileImageModal } from "./profile-image-modal";
 import Image from "next/image";
 import { getPageUser, getIsCurrentUser } from "./user";
+import { SendFriendRequestButton } from "./friend-buttons";
+import { getCachedUser } from "@/app/actions/cache";
 
 interface UserPageProps {
   params: { username: string };
 }
 
 export default async function UserPage({ params }: UserPageProps) {
+  const currentUser = await getCachedUser();
   const user = await getPageUser(params.username);
   const isCurrentUser = await getIsCurrentUser(params.username);
 
@@ -28,7 +31,7 @@ export default async function UserPage({ params }: UserPageProps) {
             />
           )}
         </div>
-        {isCurrentUser && (
+        {isCurrentUser ? (
           <div>
             <ProfileImageModal user={user} />
 
@@ -39,6 +42,11 @@ export default async function UserPage({ params }: UserPageProps) {
               <UserIcon className="w-4" /> Rediger profil
             </Link>
           </div>
+        ) : (
+          <SendFriendRequestButton
+            currentUserId={currentUser?.id}
+            friendId={user.id}
+          />
         )}
 
         <Card title="Aktivitet">

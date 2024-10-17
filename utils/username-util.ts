@@ -19,3 +19,10 @@ export function generateUniqueId(username: string): string {
   // Returner kombinasjonen av brukernavn og tilfeldig streng
   return `${lowerCaseUsername}-${randomString}`;
 }
+
+export const getFriendshipId = (
+  userId1: string | undefined,
+  userId2: string
+): string => {
+  return [userId1, userId2].sort().join("_");
+};
