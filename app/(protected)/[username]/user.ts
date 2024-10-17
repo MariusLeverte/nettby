@@ -1,15 +1,6 @@
-import { getCachedUser } from "@/app/actions/cache";
-import { getUserBySlug } from "@/app/actions/firestore";
+import { getCachedCurrentUser } from "@/app/actions/cache";
 
 export const getIsCurrentUser = async (slug: string) => {
-  const currentUser = await getCachedUser();
+  const currentUser = await getCachedCurrentUser();
   return currentUser?.slug === slug;
-};
-
-export const getPageUser = async (slug: string) => {
-  // Fetch logged in user
-  const currentUser = await getCachedUser();
-  if (currentUser?.slug === slug) return currentUser;
-
-  return await getUserBySlug(slug);
 };

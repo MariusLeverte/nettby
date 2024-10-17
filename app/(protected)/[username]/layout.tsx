@@ -1,4 +1,4 @@
-import { getCachedUser } from "@/app/actions/cache";
+import { getCachedCurrentUser } from "@/app/actions/cache";
 import { Tabs } from "@/components/tabs";
 import Link from "next/link";
 import { getIsCurrentUser } from "./user";
@@ -10,7 +10,7 @@ export default async function UserLayout({
   children: React.ReactNode;
   params: { username: string };
 }>) {
-  const currentUser = await getCachedUser();
+  const currentUser = await getCachedCurrentUser();
   const isCurrentUser = await getIsCurrentUser(params.username);
 
   return (

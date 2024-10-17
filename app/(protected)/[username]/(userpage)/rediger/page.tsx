@@ -1,9 +1,9 @@
-import { getCachedUser } from "@/app/actions/cache";
+import { getCachedCurrentUser } from "@/app/actions/cache";
 import { EditProfile } from "./edit";
 import { notFound } from "next/navigation";
 
 export default async function RedigerPage() {
-  const user = await getCachedUser();
+  const user = await getCachedCurrentUser();
 
   if (!user) return notFound();
 

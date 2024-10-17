@@ -1,25 +1,10 @@
 "use server";
 
 import { adminDb } from "@/lib/firebase-admin";
-import { User } from "@/types/firestore";
+import { Friendship, User } from "@/types/firestore";
+import { chunkArray } from "@/utils/array";
 import { getFriendshipId } from "@/utils/username-util";
 import { revalidateTag } from "next/cache";
-
-// import { QuerySnapshot } from "firebase-admin/firestore";
-// import { DecodedIdToken } from "firebase-admin/auth";
-// import { App, Content, Term } from "@/types/firestore";
-// import { revalidateTag } from "next/cache";
-
-// export const updateAppInfo = async (id: string, data: Partial<App>) => {
-//   const snapshot = await adminDb.collection("apps").doc(id).get();
-
-//   if (snapshot.exists) {
-//     await snapshot.ref.update(data);
-//   } else {
-//     await snapshot.ref.set(data);
-//   }
-//   revalidateTag("apps");
-// };
 
 export const getUserInfo = async (id: string) => {
   const snapshot = await adminDb.collection("users").doc(id).get();
@@ -74,6 +59,7 @@ export const sendFriendRequest = async (
       requestedAt: new Date(),
     });
 };
+
 // Add type for friendshipId and export the function
 export const acceptFriendRequest = async (
   friendshipId: string
@@ -88,73 +74,60 @@ export const removeFriend = async (friendshipId: string): Promise<void> => {
   await adminDb.collection("friendships").doc(friendshipId).delete();
   revalidateTag("friendships");
 };
-export const getFriendsAndRequests = async (
-  userId: string | undefined
-): Promise<{
-  friends: User[];
-  pendingRequests: {
-    id: string;
-    user: User;
-    requestedBy: string;
-    requestedAt: Date;
-  }[];
-}> => {
-  if (!userId) {
-    console.log("No userId provided");
-    return { friends: [], pendingRequests: [] };
-  }
 
+export const getFriendsAndRequests = async (userId: string) => {
   const friendshipsSnapshot = await adminDb
     .collection("friendships")
     .where("users", "array-contains", userId)
     .get();
 
-  const friends: User[] = [];
+  const friendships = friendshipsSnapshot.docs.map((doc) => {
+    const data = { id: doc.id, ...doc.data() } as Friendship;
+    return data;
+  });
+
+  const friendsUserIds = friendshipsSnapshot.docs.map((doc) => {
+    const data = doc.data() as Friendship;
+
+    return data.users.find((id: string) => id !== userId);
+  });
+
+  const chunkedIds = chunkArray(friendsUserIds, 30);
+
+  const friendsSnapshots = chunkedIds.map((idsChunk) => {
+    return adminDb.collection("users").where("__name__", "in", idsChunk).get();
+  });
+
+  const querySnapshots = await Promise.all(friendsSnapshots);
+
   const pendingRequests: {
     id: string;
     user: User;
     requestedBy: string;
     requestedAt: Date;
   }[] = [];
+  const friends: User[] = [];
 
-  for (const doc of friendshipsSnapshot.docs) {
-    const friendship = doc.data();
-    console.log("Processing friendship:", friendship);
+  for (const querySnapshot of querySnapshots) {
+    querySnapshot.forEach(async (doc) => {
+      const user = {
+        id: doc.id,
+        ...doc.data(),
+      } as User;
 
-    const otherUserId = friendship.users.find((id: string) => id !== userId);
-
-    if (!otherUserId) {
-      console.log("No other user found in friendship:", friendship);
-      continue;
-    }
-
-    if (friendship.status === "accepted") {
-      try {
-        const friendUser = await getUserInfo(otherUserId);
-        friends.push(friendUser);
-      } catch (error) {
-        console.error("Error fetching friend user info:", error);
-      }
-    } else if (
-      friendship.status === "pending" &&
-      friendship.requestedBy !== userId
-    ) {
-      try {
-        const requestingUser = await getUserInfo(otherUserId);
-
-        console.log({ requestingUser });
+      const friendship = friendships.find((f) => f.users.includes(user.id));
+      if (friendship?.status === "accepted") {
+        friends.push(user);
+      } else if (friendship?.status === "pending") {
         pendingRequests.push({
-          id: doc.id,
-          user: requestingUser,
+          id: friendship.id,
+          user,
           requestedBy: friendship.requestedBy,
-          requestedAt: friendship.requestedAt.toDate(),
+          requestedAt: friendship.requestedAt,
         });
-      } catch (error) {
-        console.error("Error fetching requesting user info:", error);
       }
-    }
+    });
   }
 
-  console.log("Returning friends and requests:", { friends, pendingRequests });
   return { friends, pendingRequests };
 };

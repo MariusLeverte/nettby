@@ -1,25 +1,17 @@
-// import { unstable_cache } from "next/cache";
-// import { getAppContents, getAppTerms, getUserApps } from "./firestore";
-// import { getSessionUser } from "./auth";
-
 import { unstable_cache } from "next/cache";
 import { getSessionUser } from "./auth";
-import { getUserInfo } from "./firestore";
+import { getUserBySlug, getUserInfo } from "./firestore";
 
-// export const getCachedApps = async () => {
-//   const user = await getSessionUser();
+export const getCachedUser = async (slug: string) => {
+  const cachedFn = unstable_cache(getUserBySlug, ["users", slug], {
+    tags: ["users"],
+    revalidate: 600,
+  });
 
-//   if (!user) return null;
+  return cachedFn(slug);
+};
 
-//   const cachedFn = unstable_cache(getUserApps, ["apps", user.uid], {
-//     tags: ["apps"],
-//     revalidate: 600,
-//   });
-
-//   return cachedFn(user);
-// };
-
-export const getCachedUser = async () => {
+export const getCachedCurrentUser = async () => {
   const user = await getSessionUser();
 
   if (!user) return null;
