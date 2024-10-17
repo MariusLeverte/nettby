@@ -22,8 +22,14 @@ export default async function VennerPage() {
             key={friend.user.userName}
             className="col-span-4 rounded bg-slate-50 overflow-hidden"
           >
-            <div className="h-40 bg-slate-200">
-              <Image src={""} alt={""} />
+            <div className="h-40 bg-slate-200 relative overflow-hidden rounded-t">
+              {friend.user.profileUrl && (
+                <Image
+                  src={friend.user.profileUrl}
+                  alt={`Profile picture of ${friend.user.userName}`}
+                  className="object-cover"
+                />
+              )}
             </div>
             <div className="p-4 flex flex-col gap-2">
               <p>{friend.user.userName}</p>
@@ -47,8 +53,15 @@ export default async function VennerPage() {
             key={friend.userName}
             className="col-span-4 rounded bg-slate-50 overflow-hidden"
           >
-            <div className="h-40 bg-slate-200">
-              <Image src={""} alt={""} />
+            <div className="h-40 bg-slate-200 relative overflow-hidden rounded-t">
+              {friend.profileUrl && (
+                <Image
+                  src={friend.profileUrl}
+                  alt={`Profile picture of ${friend.userName}`}
+                  fill
+                  className="object-cover"
+                />
+              )}
             </div>
             <div className="p-4 flex flex-col gap-2">
               <p>{friend.userName}</p>
