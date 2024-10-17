@@ -6,4 +6,5 @@ export interface User {
   lastName: string;
   birthdate: string;
   profileUrl?: string;
+  bio?: string;
 }

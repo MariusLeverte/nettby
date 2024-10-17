@@ -7,6 +7,7 @@ import Image from "next/image";
 import { getPageUser, getIsCurrentUser } from "./user";
 import { SendFriendRequestButton } from "./friend-buttons";
 import { getCachedUser } from "@/app/actions/cache";
+import { serializer } from "@/components/SlateEditor/serialize";
 
 interface UserPageProps {
   params: { username: string };
@@ -69,6 +70,12 @@ export default async function UserPage({ params }: UserPageProps) {
             <Progress label="Politi" value={35} />
           </div>
         </div>
+        <div
+          className="prose mt-10 max-w-full"
+          dangerouslySetInnerHTML={{
+            __html: serializer(JSON.parse(user?.bio || "[]")).join(""),
+          }}
+        />
       </div>
     </div>
   );
