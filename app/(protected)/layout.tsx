@@ -3,5 +3,7 @@ export default function ProtectedLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div className="max-w-screen-lg mx-auto">{children}</div>;
+  return (
+    <div className="max-w-screen-lg mx-auto h-full w-full">{children}</div>
+  );
 }

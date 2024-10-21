@@ -14,7 +14,7 @@ export default async function UserLayout({
   const isCurrentUser = await getIsCurrentUser(params.username);
 
   return (
-    <div>
+    <div className="h-full flex flex-col">
       <div className="flex justify-between items-center">
         <Tabs
           items={[
@@ -32,7 +32,7 @@ export default async function UserLayout({
           </Link>
         )}
       </div>
-      <main>{children}</main>
+      <main className="border-x border-neutral-200 flex-1">{children}</main>
     </div>
   );
 }

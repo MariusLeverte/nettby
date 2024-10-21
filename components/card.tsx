@@ -5,7 +5,7 @@ interface CardProps {
 
 export const Card = ({ title, children }: CardProps) => {
   return (
-    <div className="border rounded-md overflow-hidden border-lime-400 shadow-sm shadow-lime-200">
+    <div className="border rounded-md overflow-hidden bg-white border-lime-400 shadow-sm shadow-lime-200">
       {title && (
         <div className="bg-lime-200 p-2">
           <strong>{title}</strong>
