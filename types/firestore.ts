@@ -7,6 +7,7 @@ export interface User {
   birthdate: string;
   profileUrl?: string;
   bio?: string;
+  lastActive?: Date;
 }
 
 export interface Friendship {

@@ -7,7 +7,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { getUserInfo } from "./actions/firestore";
+import { getUserInfo, updateUserLastActive } from "./actions/firestore";
 
 type Inputs = {
   email: string;
@@ -30,6 +30,7 @@ export const EmailLogin = () => {
         });
 
         const user = await getUserInfo(userCredential.user.uid);
+        await updateUserLastActive(user.id);
 
         router.push(`/${user.slug}`);
       })

@@ -41,6 +41,35 @@ export const getUserBySlug = async (slug: string) => {
   return { id: snapshot.docs[0].id, ...snapshot.docs[0].data() } as User;
 };
 
+export async function getLastActiveUsers(): Promise<User[]> {
+  // Fetch users from Firestore
+  const users = await adminDb
+    .collection("users")
+    .orderBy("lastActive", "desc")
+    .limit(5)
+    .get();
+  // Ensure we're returning a plain object with all required User properties
+  return users.docs.map((user) => {
+    const userData = user.data();
+    return {
+      id: user.id,
+      userName: userData.userName,
+      profileUrl: userData.profileUrl,
+      slug: userData.slug,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      birthdate: userData.birthdate,
+      lastActive: userData.lastActive?.toDate(),
+    };
+  });
+}
+
+export const updateUserLastActive = async (userId: string): Promise<void> => {
+  await adminDb.collection("users").doc(userId).update({
+    lastActive: new Date(),
+  });
+};
+
 export const sendFriendRequest = async (
   currentUserId: string | undefined,
   friendId: string
