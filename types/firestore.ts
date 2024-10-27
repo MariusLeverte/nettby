@@ -1,3 +1,5 @@
+import { FieldValue } from "firebase-admin/firestore";
+
 export interface User {
   id: string;
   userName: string;
@@ -16,4 +18,12 @@ export interface Friendship {
   requestedBy: string;
   status: "pending" | "accepted";
   users: string[];
+}
+
+export interface GuestbookMessage {
+  id: string;
+  message: string;
+  senderId: string;
+  recipientId: string;
+  createdAt: FieldValue;
 }

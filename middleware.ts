@@ -28,5 +28,5 @@ export async function middleware(request: NextRequest) {
 
 // Add your protected routes, excluding "/" and "/sign-up"
 export const config = {
-  matcher: ["/((?!sign-up|api|$).*)"],
+  matcher: [],
 };

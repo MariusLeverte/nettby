@@ -26,7 +26,7 @@ export const Modal = ({
       tabIndex={-1}
       className="fixed w-full h-full inset-0 bg-black/50 flex items-center justify-center"
     >
-      <div className="relative p-4 w-full max-w-md max-h-full">
+      <div className="relative p-4 w-full max-w-xl max-h-full">
         <div className="relative bg-white rounded-lg shadow">
           <div className="p-4">
             <h2 className="text-xl font-semibold">{title}</h2>

@@ -1,6 +1,7 @@
 import { unstable_cache } from "next/cache";
 import { getSessionUser } from "./auth";
 import { getUserBySlug, getUserInfo } from "./firestore";
+import { getUserById } from "./firestore/user";
 
 export const getCachedUser = async (slug: string) => {
   const cachedFn = unstable_cache(getUserBySlug, ["users", slug], {
@@ -22,4 +23,13 @@ export const getCachedCurrentUser = async () => {
   });
 
   return cachedFn(user.uid);
+};
+
+export const getCachedUserById = async (id: string) => {
+  const cachedFn = unstable_cache(getUserById, ["users", id], {
+    tags: ["users"],
+    revalidate: 600,
+  });
+
+  return cachedFn(id);
 };

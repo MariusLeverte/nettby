@@ -14,7 +14,7 @@ type Inputs = {
   image?: string;
 };
 
-export const ProfileImageModal = ({ user }: { user: User }) => {
+export const ProfileImageModal = ({ userId }: { userId: User["id"] }) => {
   const [isOpen, setIsOpen] = useState(false);
   const {
     register,
@@ -44,9 +44,9 @@ export const ProfileImageModal = ({ user }: { user: User }) => {
     if (typeof image === "object") {
       const formData = new FormData();
       formData.append("file", image[0] as File);
-      const uploadedUrl = await uploadImage(user.id, formData);
+      const uploadedUrl = await uploadImage(userId, formData);
 
-      updateUserInfo(user.id, { profileUrl: uploadedUrl }).then(() => {
+      updateUserInfo(userId, { profileUrl: uploadedUrl }).then(() => {
         setIsOpen(false);
       });
     }

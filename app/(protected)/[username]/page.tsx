@@ -34,7 +34,7 @@ export default async function UserPage({ params }: UserPageProps) {
           </div>
           {isCurrentUser ? (
             <div>
-              <ProfileImageModal user={user} />
+              <ProfileImageModal userId={user.id} />
 
               <Link
                 href={`/${user.slug}/rediger`}
