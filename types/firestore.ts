@@ -1,5 +1,3 @@
-import { FieldValue } from "firebase-admin/firestore";
-
 export interface User {
   id: string;
   userName: string;
@@ -25,5 +23,5 @@ export interface GuestbookMessage {
   message: string;
   senderId: string;
   recipientId: string;
-  createdAt: FieldValue;
+  createdAt: Date;
 }
