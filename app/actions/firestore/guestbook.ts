@@ -51,7 +51,7 @@ export const getGuestbookMessages = async (
 
       return messages;
     },
-    ["guestbook"],
+    ["guestbook", userId],
     { revalidate: 3600, tags: ["guestbook"] }
   );
 

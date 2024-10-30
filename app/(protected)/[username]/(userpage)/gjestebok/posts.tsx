@@ -44,6 +44,8 @@ export const Posts = async ({ userId, page }: PostsProps) => {
   const count = await getGuestbookMessagesCount(userId);
   const messages = await getGuestbookMessages(userId);
 
+  console.log("Total messages:", messages);
+
   return (
     <section className="space-y-6">
       {messages.map((message) => {

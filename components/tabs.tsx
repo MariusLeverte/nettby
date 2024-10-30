@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
 
 interface TabsProps {
   items: {
@@ -15,25 +16,39 @@ export const Tabs = ({ items }: TabsProps) => {
   const pathname = usePathname();
 
   return (
-    <div className="border-b border-neutral-200 w-full">
-      <nav className="-mb-px flex gap-6">
+    <div className="">
+      <nav className="flex bg-neutral-100 rounded-md py-3 shadow-inner divide-x">
         {items?.map(({ label, href }) => {
           const isActive = href === pathname;
 
           return (
-            <Link
-              key={label.toLocaleLowerCase()}
-              href={href}
-              className={cn(
-                "rounded-t-md shrink-0 border border-transparent p-3 text-sm font-medium text-neutral-400 hover:text-neutral-700",
-                {
-                  "border border-neutral-200 border-b-white text-neutral-900 bg-white":
-                    isActive,
-                }
-              )}
-            >
-              {label}
-            </Link>
+            <span key={label.toLocaleLowerCase()} className="px-2">
+              <Link
+                href={href}
+                className={cn(
+                  "relative rounded-full px-3 py-2 text-sm text-neutral-500",
+                  {
+                    "text-neutral-900": isActive,
+                  }
+                )}
+                style={{
+                  WebkitTapHighlightColor: "transparent",
+                }}
+              >
+                <span
+                  className={cn("relative z-10", { "font-medium": isActive })}
+                >
+                  {label}
+                </span>
+                {isActive && (
+                  <motion.span
+                    layoutId="bubble"
+                    className="absolute inset-0 bg-white shadow-md rounded-md"
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+              </Link>
+            </span>
           );
         })}
       </nav>

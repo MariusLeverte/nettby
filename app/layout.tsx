@@ -32,9 +32,8 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
-        <ListUsers users={lastActiveUsers} />
-        <header className="max-w-screen-lg mx-auto bg-white w-full px-4 py-8">
-          <span>Logo</span>
+        <header className="max-w-screen-lg mx-auto w-full px-4 py-8 flex justify-between">
+          <span>Logo</span> <ListUsers users={lastActiveUsers} />
         </header>
         <main className="flex-1 grid">{children}</main>
       </body>
