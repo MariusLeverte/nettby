@@ -16,7 +16,7 @@ export const Sidebar = ({ currentUserSlug }: { currentUserSlug?: string }) => {
   const navItems: NavItem[] = [
     { label: "Profil", href: `/${currentUserSlug}`, icon: "😊" },
     { label: "Borgere", href: "/borgere", icon: "👥" },
-    // { label: "Event", href: "/event", icon: "🎪", badge: 34 },
+    { label: "Postkasse", href: "/postkasse", icon: "📩", badge: 34 },
     // { label: "Charity", href: "/charity", icon: "💝", badge: 22 },
     // { label: "Friends", href: "/friends", icon: "👥" },
     // { label: "Community", href: "/community", icon: "🤝" },
