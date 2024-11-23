@@ -9,6 +9,11 @@ const nextConfig = {
       },
     ],
   },
+  logging: {
+    fetches: {
+      fullUrl: true, // See if cache hit or not on server side
+    },
+  },
 };
 
 export default nextConfig;

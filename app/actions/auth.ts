@@ -6,5 +6,10 @@ export const getSessionUser = async () => {
 
   if (!session) return null;
 
-  return await adminAuth.verifySessionCookie(session, false);
+  try {
+    const user = await adminAuth.verifySessionCookie(session, false);
+    return user;
+  } catch (err) {
+    console.error(err);
+  }
 };

@@ -7,5 +7,5 @@ export default async function RedigerPage() {
 
   if (!user) return notFound();
 
-  return <EditProfile user={user} />;
+  return <EditProfile user={{ id: user.id, bio: user.bio }} />;
 }

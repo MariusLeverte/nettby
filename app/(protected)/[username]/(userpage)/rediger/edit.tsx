@@ -7,7 +7,7 @@ import { User } from "@/types/firestore";
 import { useState } from "react";
 
 interface EditProfileProps {
-  user: User;
+  user: Pick<User, "id" | "bio">;
 }
 
 export const EditProfile = ({ user }: EditProfileProps) => {
