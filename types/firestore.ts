@@ -25,3 +25,16 @@ export interface GuestbookMessage {
   recipientId: string;
   createdAt: Date;
 }
+
+export interface Conversation {
+  id: string;
+  participants: string[];
+}
+
+export interface ChatMessage {
+  id: string;
+  sender: string;
+  conversationId: string;
+  message: string;
+  createdAt: Date;
+}
