@@ -1,6 +1,5 @@
 import { EmailLogin } from "./email-login";
 
-/* eslint-disable react/no-unescaped-entities */
 export default function Page() {
   return (
     <main className="max-w-screen-lg mx-auto py-40 px-8 flex gap-4 flex-wrap ">

@@ -2,12 +2,11 @@
 
 import { Input } from "@/components/input";
 import { Label } from "@/components/label";
-import { auth } from "@/lib/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { getUserInfo, updateUserLastActive } from "./actions/firestore";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/lib/firebase";
+import { useRouter } from "next/navigation";
 
 type Inputs = {
   email: string;
@@ -16,23 +15,19 @@ type Inputs = {
 
 export const EmailLogin = () => {
   const router = useRouter();
-
   const { register, handleSubmit } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = ({ email, password }) => {
     signInWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
-        await fetch("/api/auth", {
+        const result = await fetch("/api/auth", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${await userCredential.user.getIdToken()}`,
           },
         });
-
-        const user = await getUserInfo(userCredential.user.uid);
-        await updateUserLastActive(user.id);
-
-        router.push(`/${user.slug}`);
+        const { slug } = await result.json();
+        router.push(`/${slug}`);
       })
       .catch((error) => {
         console.log("Error signing in:", error);

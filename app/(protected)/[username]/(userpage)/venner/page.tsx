@@ -1,12 +1,12 @@
 import { getCachedUser } from "@/app/actions/cache";
 import { getFriendsAndRequests } from "@/app/actions/firestore";
-import Image from "next/image";
 import {
   AcceptFriendRequestButton,
   RemoveFriendButton,
 } from "../../friend-buttons";
 import Link from "next/link";
 import { getIsCurrentUser } from "../../user";
+import { ProfileCard } from "@/components/profile-card";
 
 export default async function VennerPage({
   params,
@@ -24,68 +24,47 @@ export default async function VennerPage({
       <ul className="grid grid-cols-12 gap-4">
         {isCurrentUser &&
           pendingRequests.map((friend) => (
-            <li
-              key={friend.id}
-              className="col-span-4 rounded bg-slate-50 overflow-hidden"
-            >
+            <li key={friend.id} className="col-span-6 space-y-2">
               <Link href={`/${friend.user.slug}`}>
-                <div className="h-40 bg-slate-200 relative overflow-hidden rounded-t">
-                  {friend.user.profileUrl && (
-                    <Image
-                      src={friend.user.profileUrl}
-                      alt={`Profilbilde - ${friend.user.userName}`}
-                      className="object-cover"
-                    />
-                  )}
-                </div>
-                <div className="p-4 flex flex-col gap-2">
-                  <p>{friend.user.userName}</p>
-                  {isCurrentUser && (
-                    <>
-                      <AcceptFriendRequestButton
-                        currentUserId={user?.id}
-                        friendId={friend.user.id}
-                      />
-                      <RemoveFriendButton
-                        currentUserId={user?.id}
-                        friendId={friend.user.id}
-                      />
-                    </>
-                  )}
-                </div>
+                <ProfileCard
+                  profileUrl={friend.user.profileUrl}
+                  userName={friend.user.userName}
+                  status={"Hello world, jeg er kul"}
+                />
               </Link>
+
+              {isCurrentUser && (
+                <>
+                  <AcceptFriendRequestButton
+                    currentUserId={user?.id}
+                    friendId={friend.user.id}
+                  />
+                  <RemoveFriendButton
+                    currentUserId={user?.id}
+                    friendId={friend.user.id}
+                  />
+                </>
+              )}
             </li>
           ))}
       </ul>
 
       <ul className="grid grid-cols-12 gap-4">
         {friends.map((friend) => (
-          <li
-            key={friend.userName}
-            className="col-span-4 rounded bg-slate-50 overflow-hidden"
-          >
+          <li key={friend.userName} className="col-span-6 space-y-2">
             <Link href={`/${friend.slug}`}>
-              <div className="h-40 bg-slate-200 relative overflow-hidden rounded-t">
-                {friend.profileUrl && (
-                  <Image
-                    src={friend.profileUrl}
-                    alt={`Profilbilde - ${friend.userName}`}
-                    fill
-                    className="object-cover"
-                  />
-                )}
-              </div>
-              <div className="p-4 flex flex-col gap-2">
-                <p>{friend.userName}</p>
-
-                {isCurrentUser && (
-                  <RemoveFriendButton
-                    currentUserId={user?.id}
-                    friendId={friend.id}
-                  />
-                )}
-              </div>
+              <ProfileCard
+                profileUrl={friend.profileUrl}
+                userName={friend.userName}
+                status={"Hello world, jeg er kul"}
+              />
             </Link>
+            {isCurrentUser && (
+              <RemoveFriendButton
+                currentUserId={user?.id}
+                friendId={friend.id}
+              />
+            )}
           </li>
         ))}
       </ul>

@@ -2,9 +2,10 @@ import { cookies, headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { adminAuth } from "@/lib/firebase-admin";
 import { setAuthCookie } from "@/app/actions/cookie";
+import { getUserInfo } from "@/app/actions/firestore";
 
 export async function GET() {
-  const session = cookies().get("session")?.value || "";
+  const session = (await cookies()).get("session")?.value || "";
   //Validate if the cookie exist in the request
   if (!session) {
     return NextResponse.json({ isLogged: false }, { status: 401 });
@@ -21,7 +22,7 @@ export async function GET() {
 }
 
 export async function POST() {
-  const authorization = headers().get("Authorization");
+  const authorization = (await headers()).get("Authorization");
 
   if (authorization?.startsWith("Bearer ")) {
     const idToken = authorization.split("Bearer ")[1];
@@ -30,6 +31,9 @@ export async function POST() {
 
     if (decodedToken) {
       await setAuthCookie(idToken);
+
+      const user = await getUserInfo(decodedToken.uid);
+      return NextResponse.json({ slug: user.slug }, { status: 200 });
     }
   }
 

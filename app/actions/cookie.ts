@@ -5,8 +5,8 @@ import { cookies } from "next/headers";
 
 const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 dager
 
-export const setCookie = (name: string, value: string) => {
-  cookies().set({
+export const setCookie = async (name: string, value: string) => {
+  (await cookies()).set({
     name: name,
     value: value,
     maxAge: expiresIn,

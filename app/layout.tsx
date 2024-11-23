@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { getLastActiveUsers } from "./actions/firestore";
-import { ListUsers } from "./list-users";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,16 +23,11 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const lastActiveUsers = await getLastActiveUsers();
-
   return (
     <html lang="nb">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
-        <header className="max-w-screen-lg mx-auto w-full px-4 py-8 flex justify-between">
-          <span>Logo</span> <ListUsers users={lastActiveUsers} />
-        </header>
         <main className="flex-1 grid">{children}</main>
       </body>
     </html>
