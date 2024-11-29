@@ -3,7 +3,7 @@ import { ButtonHTMLAttributes, cloneElement } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: React.ReactElement;
-  variant?: "primary" | "outline";
+  variant?: "primary" | "outline" | "white";
   loading?: boolean;
 }
 
@@ -21,6 +21,7 @@ export const Button = ({
         "inline-flex items-center rounded-lg px-5 py-2 text-sm font-medium",
         {
           "bg-neutral-900 text-white": variant === "primary",
+          "bg-white": variant === "white",
           "border border-neutral-900": variant === "outline",
           "opacity-45": props.disabled,
         },

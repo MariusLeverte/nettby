@@ -20,7 +20,7 @@ export default async function ProtectedLayout({
           <Input placeholder="Søk etter venner eller grupper" />
         </div>
         <div className="h-full w-full flex flex-col">
-          <div className="bg-white shadow-sm shadow-neutral-200 rounded-md flex-1">
+          <div className="bg-white shadow-sm shadow-neutral-200 rounded-xl flex-1 overflow-hidden">
             {children}
           </div>
         </div>

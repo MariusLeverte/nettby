@@ -1,12 +1,13 @@
 import { getCachedUser } from "@/app/actions/cache";
 import { getFriendsAndRequests } from "@/app/actions/firestore";
+
+import Link from "next/link";
+import { ProfileCard } from "@/components/profile-card";
+import { getIsCurrentUser } from "../user";
 import {
   AcceptFriendRequestButton,
   RemoveFriendButton,
-} from "../../friend-buttons";
-import Link from "next/link";
-import { getIsCurrentUser } from "../../user";
-import { ProfileCard } from "@/components/profile-card";
+} from "../friend-buttons";
 
 export default async function VennerPage({
   params,

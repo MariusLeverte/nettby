@@ -53,15 +53,17 @@ export const Chat = ({ conversationId, initialMessages = [] }: ChatProps) => {
     <div className="flex h-screen overflow-hidden">
       <div className="flex-1">
         <div className="h-screen overflow-y-auto p-4 pb-36">
-          {messages.map((message) => (
-            <div className="flex items-start gap-2.5" key={message.id}>
-              <div className="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
-                <p className="text-sm font-normal py-2.5 text-gray-900 dark:text-white">
-                  {message.message}
-                </p>
+          {messages
+            .sort((a, b) => a.createdAt - b.createdAt)
+            .map((message) => (
+              <div className="flex items-start gap-2.5" key={message.id}>
+                <div className="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
+                  <p className="text-sm font-normal py-2.5 text-gray-900 dark:text-white">
+                    {message.message}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
 
         <div className="bg-white border-t border-gray-300 p-4 absolute bottom-0 w-3/4">

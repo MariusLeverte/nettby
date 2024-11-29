@@ -1,5 +1,5 @@
 import { getCachedCurrentUser, getCachedUser } from "@/app/actions/cache";
-import { getIsCurrentUser } from "../../user";
+import { getIsCurrentUser } from "../user";
 import { NewMessage } from "./new-message";
 import { Posts } from "./posts";
 
