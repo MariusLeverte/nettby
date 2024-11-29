@@ -5,13 +5,11 @@ export const Input = forwardRef<
   InputHTMLAttributes<HTMLInputElement>
 >(({ ...inputProps }, ref) => {
   return (
-    <div>
-      <input
-        className="mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
-        ref={ref}
-        {...inputProps}
-      />
-    </div>
+    <input
+      className="mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
+      ref={ref}
+      {...inputProps}
+    />
   );
 });
 

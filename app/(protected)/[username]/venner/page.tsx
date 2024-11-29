@@ -25,7 +25,7 @@ export default async function VennerPage({
       <ul className="grid grid-cols-12 gap-4">
         {isCurrentUser &&
           pendingRequests.map((friend) => (
-            <li key={friend.id} className="col-span-6 space-y-2">
+            <li key={friend.id} className="col-span-3 space-y-2">
               <Link href={`/${friend.user.slug}`}>
                 <ProfileCard
                   profileUrl={friend.user.profileUrl}
@@ -52,7 +52,7 @@ export default async function VennerPage({
 
       <ul className="grid grid-cols-12 gap-4">
         {friends.map((friend) => (
-          <li key={friend.userName} className="col-span-6 space-y-2">
+          <li key={friend.userName} className="col-span-3 space-y-2">
             <Link href={`/${friend.slug}`}>
               <ProfileCard
                 profileUrl={friend.profileUrl}

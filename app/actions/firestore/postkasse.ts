@@ -2,6 +2,7 @@ import { adminDb } from "@/lib/firebase-admin";
 import { getUserBySlug } from ".";
 import { getSessionUser } from "../auth";
 import { ChatMessage, Conversation } from "@/types/firestore";
+import { Timestamp } from "firebase/firestore";
 
 export const getConversations = async () => {
   const sessionUser = await getSessionUser();
@@ -53,7 +54,25 @@ export const getMessagesInConversation = async (conversationId: string) => {
     .where("conversationId", "==", conversationId)
     .get();
 
-  return messagesSnapshot.docs.map(
-    (doc) => ({ id: doc.id, ...doc.data() } as ChatMessage)
-  );
+  return messagesSnapshot.docs
+    .map((doc) => {
+      const createdAt = new Timestamp(
+        doc.data().createdAt._seconds,
+        doc.data().createdAt._nanoseconds
+      );
+
+      return { id: doc.id, ...doc.data(), createdAt } as ChatMessage;
+    })
+    .sort((a, b) => a.createdAt.seconds - b.createdAt.seconds);
+};
+
+export const getLatestMessage = async (conversationId: string) => {
+  const messagesSnapshot = await adminDb
+    .collection("messages")
+    .where("conversationId", "==", conversationId)
+    .orderBy("createdAt", "desc")
+    .limit(1)
+    .get();
+
+  return messagesSnapshot.docs[0].data() as ChatMessage;
 };

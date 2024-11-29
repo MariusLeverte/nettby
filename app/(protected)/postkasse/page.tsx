@@ -7,17 +7,21 @@ export default async function Page() {
   const conversations = await getConversations();
 
   return (
-    <ul>
-      {conversations?.map((conversation) => (
-        <li key={conversation.id}>
-          <ConversationItem
-            userId={
-              conversation.participants.find((p) => p !== sessionUser?.uid) ||
-              ""
-            }
-          />
-        </li>
-      ))}
-    </ul>
+    <div className="pt-10 px-6">
+      <h1 className="text-3xl font-bold">Postkasse</h1>
+      <ul className="mt-10">
+        {conversations?.map((conversation) => (
+          <li key={conversation.id}>
+            <ConversationItem
+              userId={
+                conversation.participants.find((p) => p !== sessionUser?.uid) ||
+                ""
+              }
+              conversationId={conversation.id}
+            />
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

@@ -41,7 +41,7 @@ export const Sidebar = ({ currentUserSlug }: { currentUserSlug?: string }) => {
                 <span>{item.label}</span>
               </div>
               {item.badge && (
-                <span className="px-2 py-1 text-sm text-white bg-red-500 rounded-full">
+                <span className="px-2 py-0.5 text-sm text-white bg-red-500 rounded-lg">
                   {item.badge}
                 </span>
               )}

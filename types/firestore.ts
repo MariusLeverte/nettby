@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface User {
   id: string;
   userName: string;
@@ -36,5 +38,5 @@ export interface ChatMessage {
   sender: string;
   conversationId: string;
   message: string;
-  createdAt: Date;
+  createdAt: Timestamp;
 }

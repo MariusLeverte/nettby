@@ -17,12 +17,12 @@ export const Tabs = ({ items }: TabsProps) => {
 
   return (
     <div className="">
-      <nav className="flex bg-neutral-100 rounded-md py-3 shadow-inner divide-x">
+      <nav className="flex bg-neutral-100 rounded-md py-2 shadow-inner divide-x">
         {items?.map(({ label, href }) => {
           const isActive = href === pathname;
 
           return (
-            <span key={label.toLocaleLowerCase()} className="px-2">
+            <span key={label.toLocaleLowerCase()} className="px-1">
               <Link
                 href={href}
                 className={cn(
@@ -43,7 +43,7 @@ export const Tabs = ({ items }: TabsProps) => {
                 {isActive && (
                   <motion.span
                     layoutId="bubble"
-                    className="absolute inset-0 bg-white shadow-md rounded-md"
+                    className="absolute inset-0 bg-white shadow-sm rounded-md"
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                   />
                 )}
