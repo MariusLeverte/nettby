@@ -33,15 +33,16 @@ const initialValue: Descendant[] = [
 interface SlateEditorProps {
   initialValue?: Descendant[];
   onChange: (value: string) => void;
+  placeholder?: string;
 }
 
-export const SlateEditor = (props: SlateEditorProps) => {
+export const SlateEditor = ({ placeholder, ...props }: SlateEditorProps) => {
   const renderElement = useCallback((props) => <Element {...props} />, []);
   const renderLeaf = useCallback((props) => <Mark {...props} />, []);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
   return (
-    <div className="prose border border-neutral-500 shadow-md max-w-none">
+    <div className="prose border max-w-none rounded-lg">
       <Slate
         editor={editor}
         initialValue={props.initialValue || initialValue}
@@ -55,7 +56,7 @@ export const SlateEditor = (props: SlateEditorProps) => {
           }
         }}
       >
-        <div className="flex space-x-2 border-b border-neutral-500 p-2">
+        <div className="flex space-x-2 border-b p-2">
           {Object.keys(MarkFormats).map((key) => (
             <MarkButton key={key} format={key as keyof typeof MarkFormats} />
           ))}
@@ -75,10 +76,10 @@ export const SlateEditor = (props: SlateEditorProps) => {
         <Editable
           renderElement={renderElement}
           renderLeaf={renderLeaf}
-          placeholder=""
+          placeholder={placeholder}
           spellCheck
           autoFocus
-          className="focus:outline-none px-4 py-2"
+          className="focus:outline-none px-4 py-2 max-h-[300px] overflow-y-auto"
           onKeyDown={(event) => {
             for (const hotkey in HOTKEYS) {
               if (isHotkey(hotkey, event as any)) {

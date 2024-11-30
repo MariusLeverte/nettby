@@ -14,13 +14,10 @@ export default async function GjestebokPage({
 
   return (
     <div>
-      <h1 className="text-3xl font-bold">{user.userName} gjestebok</h1>
-      <p>Send en hilsen i gjesteboka</p>
-      <hr className="my-2" />
-      {!isCurrentUser && (
-        <NewMessage userId={user.id} senderId={currentUser?.id || ""} />
-      )}
       <div className="mt-10">
+        {!isCurrentUser && (
+          <NewMessage userId={user.id} senderId={currentUser?.id || ""} />
+        )}
         <Posts userId={user.id} page={0} />
       </div>
     </div>

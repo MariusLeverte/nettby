@@ -6,7 +6,9 @@ interface UserPageProps {
 }
 
 export default async function UserPage({ params }: UserPageProps) {
-  const user = await getCachedUser(params.username);
+  const { username } = await params;
+
+  const user = await getCachedUser(username);
 
   return (
     <div

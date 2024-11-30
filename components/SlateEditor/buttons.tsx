@@ -29,7 +29,7 @@ const Button = ({
 }) => (
   <button
     className={clsx("text-neutral-500 flex items-center rounded p-1", {
-      "text-neutral-100 bg-neutral-800": isActive,
+      "text-neutral-50 bg-neutral-800": isActive,
     })}
     onClick={(e) => {
       e.preventDefault();

@@ -10,8 +10,7 @@ import { Descendant } from "slate";
 const initialValue: Descendant[] = [
   {
     type: "paragraph",
-    align: "left",
-    children: [{ text: "Skriv en hilsen" }],
+    children: [{ text: " " }],
   },
 ];
 
@@ -29,14 +28,17 @@ export const NewMessage = ({
     if (!value) return;
 
     await postGuestbookMessage(value, userId, senderId);
+    setIsOpen(false);
   };
 
   return (
     <>
-      <Button onClick={() => setIsOpen(true)}>Skriv i gjesteboka</Button>
+      <div className="mb-4 text-right">
+        <Button onClick={() => setIsOpen(true)}>Skriv i gjesteboka</Button>
+      </div>
       {isOpen && (
         <Modal
-          title="Skriv en hilsen"
+          title="Send hilsen"
           onClose={() => setIsOpen(false)}
           onSubmit={handleSave}
         >
